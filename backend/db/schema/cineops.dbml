@@ -1,0 +1,104 @@
+Project cineops {
+    database_type: 'PostgreSQL'
+}
+
+Enum status {
+    active
+    deleted
+    suspended
+}
+
+Table users {
+    id integer [pk, not null, unique, increment]
+    firebase_id varchar [not null, unique]
+
+    email varchar(255) [not null, unique]
+    display_name varchar(120) [not null]
+    username varchar(50) [not null, unique]
+    avatar_url varchar(512)
+
+    bio text
+    preferences_genres integer[] [default: '{}']
+
+    status status [default: 'active']
+
+    created_at timestamp [default: `now()`]
+    updated_at timestamp [default: `now()`]
+}
+
+Table user_favorites {
+    id integer [pk, not null, unique, increment]
+    user_id integer [not null, ref: > users.id]
+    movie_id integer [not null, ref: > movies.id]
+
+    created_at timestamp [default: `now()`]
+
+    indexes {
+        (user_id, movie_id) [unique]
+    }
+}
+
+Table reviews {
+    id integer [pk, not null, unique, increment]
+    user_id integer [not null, ref: > users.id]
+    movie_id integer [not null, ref: > movies.id]
+
+    rating float [not null]
+    body text
+
+    created_at timestamp [default: `now()`]
+    updated_at timestamp [default: `now()`]
+
+    indexes {
+        (user_id, movie_id) [unique]
+    }
+}
+
+Enum visibility {
+    public
+    private
+}
+
+Table lists {
+    id integer [pk, not null, unique, increment]
+    user_id integer [not null, ref: > users.id]
+
+    name varchar(100) [not null]
+    description text
+    visibility visibility [default: 'private']
+
+    created_at timestamp [default: `now()`]
+    updated_at timestamp [default: `now()`]
+}
+
+Table list_items {
+    id integer [pk, not null, unique, increment]
+    list_id integer [not null, ref: > lists.id]
+    movie_id integer [not null, ref: > movies.id]
+
+    position integer [not null]
+
+    created_at timestamp [default: `now()`]
+
+    indexes {
+        (list_id, movie_id) [unique]
+    }
+}
+
+Table genres {
+    id integer [pk, not null, unique, increment]
+    name varchar(100) [not null, unique]
+}
+
+Table movies {
+    id integer [pk, not null, unique, increment]
+    tmdb_id integer [not null, unique]
+    title varchar(255) [not null]
+    overview text
+    release_date date
+    runtime float
+    poster_url varchar
+    genre_ids integer[]
+    created_at timestamp [default: `now()`]
+    updated_at timestamp [default: `now()`]
+}
