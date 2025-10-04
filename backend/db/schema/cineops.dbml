@@ -5,6 +5,7 @@ Project cineops {
 Enum status {
     active
     deleted
+    suspended
 }
 
 Table users {

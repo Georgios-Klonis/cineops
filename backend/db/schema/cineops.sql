@@ -4,7 +4,8 @@
 
 CREATE TYPE "status" AS ENUM (
   'active',
-  'deleted'
+  'deleted',
+  'suspended'
 );
 
 CREATE TYPE "visibility" AS ENUM (
