@@ -26,7 +26,17 @@
    ```sh
    pip install alembic
    pip install python-dotenv
+   pip install sqlalchemy
    pip install psycopg2-binary
+   export DATABASE_URL=postgresql://cineops:cineops@localhost:5432/cineops_dev  # or use backend/.env
    alembic init backend/db/migrations
    alembic upgrade head
    ```
+
+
+Seeding:
+
+```sh
+python backend/db/seeds/load_processed.py
+# rerunning truncates movies/genres and reloads from processed CSVs
+```
