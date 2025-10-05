@@ -1,0 +1,8 @@
+credentials_file = "" # path to GCP credentials JSON file (optional)
+project_id = ""
+project_name = ""
+billing_account = ""
+folder_id = ""  # (optional)            
+org_id = ""  # (optional)              
+
+enabled_apis = []   # (optional)        
